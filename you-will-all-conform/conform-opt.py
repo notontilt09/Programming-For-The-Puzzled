@@ -4,8 +4,9 @@
 #Output is a set of commands (printed out) to get either all F's or all B's
 #Fewest commands are the goal
 
-caps = ['F', 'F', 'B', 'B', 'B', 'F', 'B', 'B', 'B', 'F', 'F', 'B', 'F' ]
-cap2 = ['F', 'F', 'B', 'B', 'B', 'F', 'B', 'B', 'B', 'F', 'F', 'F', 'F' ]
+caps = ['F', 'F', 'B', 'B', 'B', 'F', 'B', 'B', 'B', 'F', 'F', 'B', 'F']
+cap2 = ['F', 'F', 'B', 'B', 'B', 'F', 'B', 'B', 'B', 'F', 'F', 'F', 'F']
+cap3 = ['F', 'F', 'B', 'H', 'B', 'F', 'B', 'B', 'B', 'F', 'H', 'F', 'F']
 
 def pleaseConformOpt(caps):
     #Initialization
@@ -39,14 +40,27 @@ def pleaseConformOpt(caps):
 
 
 def pleaseConformOnepass(caps):
+    if len(caps) == 0:
+        print('No caps in this line')
+        return
+
+    # open boolean to prevent double printing on a single person flip
+    open = False
     caps = caps + [caps[0]]
     for i in range(1, len(caps)):
         if caps[i] != caps[i-1]:
             if caps[i] != caps[0]:
-                print('People in positions', i, end='')
+                if caps[i] != caps[i+1]:
+                    print(f'Person in position {i}, flip your cap')
+                    open = False
+                else:
+                    print('People in positions', i, end='')
+                    open = True
             else:
-                print(' through', i-1, 'flip your caps!')
+                if open:
+                    print(' through', i-1, 'flip your caps!')
+                    open = False
 
                            
-pleaseConformOpt(caps)
+# pleaseConformOpt(caps)
 pleaseConformOnepass(caps)
